@@ -1,195 +1,122 @@
-// src/sections/Hero.tsx
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { Download, ChevronDown } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import GoldenLine from './GoldenLine';
 
-//components
-//import Avatar from './Avatar';
-//import Glasses from './glasses';
+// --- REGAL GOLD STYLING ---
+// Gradient for shiny, reflective text and borders
+const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
 
-// New, more definitive female silhouette path (generic standing figure)
-const FEMALE_SILHOUETTE_PATH = `
-    M300 100 
-    C320 120, 320 160, 300 180 
-    C250 230, 250 300, 270 350 
-    C290 400, 300 450, 300 500 
-    L300 600 
-    L400 600 
-    C400 450, 350 350, 350 250 
-    C350 150, 400 100, 400 50 
-    L300 50 Z 
-    M300 100 
-    C280 120, 280 160, 300 180 
-    C350 230, 350 300, 330 350 
-    C310 400, 300 450, 300 500
-    L300 600
-`;
+export default function Hero() {
+  // Corrected Name and Title
+  const namePrimary = "Morwetsana Pule";
+  const title = "FULL STACK ARCHITECT";
 
-// Encode the path for use in CSS mask-image URL
-const encodedPath = encodeURIComponent(`
-  <svg width='600' height='800' viewBox='200 50 250 600' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <path d="${FEMALE_SILHOUETTE_PATH}" fill='black'/>
-  </svg>
-`);
+  // Splitting logic updated to reliably separate the first word (Morwetsana) and the rest (Pule)
+  const nameParts = namePrimary.split(" ");
+  const firstName = nameParts[0];
+  const lastName = nameParts.slice(1).join(" ");
 
-const Hero: React.FC = () => {
-  const downloadCV = () => {
-    const link = document.createElement('a');
-    link.href = '/cv.pdf';
-    link.download = 'YourName_CV.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Placeholder for the large, faint script letter from the inspiration image
+  const giantFaintLetter = firstName.charAt(0) + '.' + lastName.charAt(0);
+
+  // Styling object for text using the regal gold gradient clip
+  const regalGoldText = {
+    background: REGAL_GOLD_GRADIENT,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))',
   };
 
   return (
-    <section id="hero" className="snap-start min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
+    <>
+    <GoldenLine />
+      <div
+        id="hero"
+        className="relative flex items-center justify-center w-full min-h-screen pt-24 pb-5 overflow-hidden snap-start"
+      >
 
-      {/* DEFINITIVE FEMALE AVATAR - BIG AND VISIBLE */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Main animated avatar container: Increased size (600x800px) */}
-        <motion.div
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 w-full h-full max-w-[600px] max-h-[800px] perspective-2000"
-          initial={{ opacity: 0, x: 150, rotateY: 20 }}
-          animate={{ opacity: 1, x: 0, rotateY: 10 }} // Subtle perspective shift
-          transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
-        >
+        <div className="relative z-10 text-center px-4 max-w-4xl w-full">
 
-          {/* 1. Neon Glow Outline (Very wide and soft) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-fuchsia-500/10 to-purple-500/20 blur-[150px]"></div>
-
-          {/* 2. Glitch/Flicker Effect Layer (Low opacity, rapid animation) */}
+          {/* --- GIANT FAINT LETTER (Simulating the script overlay) --- */}
           <motion.div
-            className="absolute inset-0 mix-blend-overlay"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 0.05, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 select-none"
             style={{
-              background: 'linear-gradient(45deg, rgba(50,255,255,0.4), rgba(255,0,255,0.4))',
-              maskImage: `url("data:image/svg+xml,${encodedPath}")`,
-              maskRepeat: 'no-repeat',
-              maskPosition: 'center',
-              maskSize: 'contain',
-              opacity: 0.3,
+              ...regalGoldText,
+              fontSize: '40vh', // Huge size for the background effect
+              opacity: 0.05, // Very faint
+              filter: 'none', // Remove shadow from background element
+              lineHeight: 1,
+              userSelect: 'none',
+              // Using a script-like font for the large letter simulation
+              fontFamily: 'Playfair Display, serif',
             }}
-            animate={{
-              x: [0, 4, -4, 0],
-              y: [0, -2, 2, 0],
-              opacity: [0.3, 0.6, 0.1, 0.3],
-            }}
-            transition={{
-              duration: 0.08,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          />
-
-          {/* 3. Main Silhouette Shape (The solid color/pulse) */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-fuchsia-600 via-indigo-600 to-cyan-500 shadow-2xl shadow-fuchsia-900/50"
-            animate={{
-              scale: [1, 1.02, 1],
-              opacity: [0.8, 1, 0.8],
-            }}
-            transition={{
-              duration: 3.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              maskImage: `url("data:image/svg+xml,${encodedPath}")`,
-              maskRepeat: 'no-repeat',
-              maskPosition: 'center',
-              maskSize: 'contain',
-            }}
-          />
-
-          {/* 4. Scanline/Data Flow Effect (Overlaid on top) */}
-          <motion.div
-            className="absolute inset-0"
-            style={{
-              background: 'repeating-linear-gradient(0deg, #FFFFFF30, #FFFFFF10 1px, transparent 1px, transparent 3px)',
-              maskImage: `url("data:image/svg+xml,${encodedPath}")`,
-              maskRepeat: 'no-repeat',
-              maskPosition: 'center',
-              maskSize: 'contain',
-              mixBlendMode: 'screen',
-            }}
-            animate={{
-              backgroundPosition: ['0% 0%', '0% 100%'],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-
-        </motion.div>
-
-        {/* glasses model */}
-        <motion.div
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full z-0 flex items-center justify-center" // Added flex for centering
-          initial={{ opacity: 0, x: 150 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }}
-        >
-          <Canvas
-            camera={{ position: [0, 0, 3], fov: 75 }} // Adjusted camera for glasses (closer, center)
-            className="w-full h-full"
           >
-            <ambientLight intensity={0.5} />
-            <pointLight position={[1, 1, 1]} intensity={0.8} color="#00ffff" /> {/* Cyan highlight */}
-            <pointLight position={[-1, -1, 1]} intensity={0.8} color="#ff00ff" /> {/* Magenta highlight */}
-
-            <Environment preset="night" /> {/* Dark environment to make neon pop */}
-
-            {/* Render the CyberGlasses component */}
-
-
-            <OrbitControls enableZoom={true} enablePan={false} /> {/* For easy viewing in dev, disable in prod */}
-
-          </Canvas>
-        </motion.div>
-
-        {/* Background Ambient Glows */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] opacity-70 animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-[120px] opacity-70 animate-pulse-slow delay-1000"></div>
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-6 text-left relative z-10 w-full max-w-lg md:ml-32">
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white">
-              Software Engineer
-            </h1>
-            <h2 className="text-2xl md:text-3xl text-gray-300 mb-8">
-              Full Stack Developer
-            </h2>
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12">
-              Creating powerful and innovative solutions with modern technologies.
-              Passionate about building robust, scalable, and secure applications.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button
-                onClick={downloadCV}
-                className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center gap-2"
-              >
-                <Download size={20} />
-                Download CV
-              </button>
-              <button className="border border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition-colors">
-                Get In Touch
-              </button>
-            </div>
+            {giantFaintLetter}
           </motion.div>
-        </div>
 
+
+          {/* --- MAIN NAME (Large, spaced, Gold) --- */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.5 }}
+            // Reduced tracking slightly for the longer name to fit better on small screens
+            className="text-right text-6xl sm:text-7xl lg:text-6xl font-serif font-light tracking-[0.4em] sm:tracking-[0.6em] uppercase mb-4"
+            style={{ ...regalGoldText }}
+          >
+            {/* Ensure the space between first and last name is maintained */}
+            {firstName} <span className='text-gray-900'>&mdash;</span> {lastName}
+          </motion.h1>
+
+          {/* --- SUBTITLE (Smaller, spaced, Gold) --- */}
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.8 }}
+            className="text-xl sm:text-2xl font-sans font-medium tracking-[0.4em] uppercase"
+            style={{
+              ...regalGoldText,
+              filter: 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3))', // Slightly less shadow for the subtitle
+            }}
+          >
+            {title}
+          </motion.p>
+
+          {/* --- CTA BUTTON (Small, clean, gold-framed) --- */}
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1.2, type: 'spring', stiffness: 100 }}
+            className="mt-16 px-8 py-3 rounded-full text-base font-medium transition-all duration-300 transform hover:scale-[1.03]"
+            style={{
+              // Faux Gold Border using Box Shadow and Transparent background
+              background: 'rgba(255, 255, 255, 0.15)',
+              boxShadow: `
+              inset 0 0 0 2px #D4AF37, /* Inner gold frame */
+              0 4px 15px rgba(0, 0, 0, 0.2) /* Subtle shadow for lift */
+            `,
+              color: '#D4AF37', // Gold text
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+            }}
+          >
+            <span
+              style={{
+                display: 'flex',
+                gap: '5px',
+                alignItems: 'center'
+              }}
+            >
+              <Download size={20} />
+              Download CV
+            </span>
+
+          </motion.button>
+        </div>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -199,8 +126,7 @@ const Hero: React.FC = () => {
           <ChevronDown size={32} className="text-white animate-bounce" />
         </motion.div>
       </div>
-    </section>
-  );
-};
+    </>
 
-export default Hero;
+  );
+}

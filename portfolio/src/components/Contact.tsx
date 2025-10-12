@@ -1,234 +1,162 @@
-// src/sections/Contact.tsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MessageCircle, Smartphone, Send } from 'lucide-react';
+import { Mail, Linkedin, Github, MessageCircle } from 'lucide-react';
+
+// --- REGAL GOLD STYLING CONSTANTS (Consistent with other components) ---
+const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
+const GOLD_HEX = '#D4AF37';
+// Use the style object for the regal gold text effect
+const regalGoldText = {
+  background: REGAL_GOLD_GRADIENT,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  filter: 'drop-shadow(0 0px 3px rgba(255, 215, 0, 0.2))',
+};
+// ---------------------------------------------------------------------
+
+// Mock contact links
+const contactInfo = [
+  { icon: Mail, label: 'Email Me', value: 'morwetsana.pule@gmail.com', href: 'mailto:morwetsana.pule@gmail.com' },
+  { icon: Linkedin, label: 'LinkedIn', value: 'www.linkedin.com/in/mmpule', href: 'www.linkedin.com/in/mmpule' },
+  { icon: Github, label: 'GitHub', value: 'https://github.com/AnaPule', href: '#' },
+  {icon: MessageCircle, label: 'WhatsApp', value: '+27 63 519 9397', href: '#'}
+];
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
+  // State for form inputs (using mock state as submission logic is not implemented)
+  const [formState, setFormState] = useState({
     name: '',
     email: '',
-    phone: '',
-    subject: '',
-    message: ''
+    message: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+    console.log('Form submitted (Mock):', formState);
+    // In a real application, you would handle API submission here
+    alert('Thank you for your message! (Mock Submission)');
+    setFormState({ name: '', email: '', message: '' });
   };
-
-  const contactMethods = [
-    {
-      icon: Mail,
-      title: 'Email',
-      value: 'your.email@example.com',
-      action: 'mailto:your.email@example.com',
-      gradient: 'from-[#F4007A] to-[#FF40A6]'
-    },
-    {
-      icon: MessageCircle,
-      title: 'WhatsApp',
-      value: '+1234567890',
-      action: 'https://wa.me/1234567890',
-      gradient: 'from-[#335B9D] to-[#FF40A6]'
-    },
-    {
-      icon: Smartphone,
-      title: 'SMS',
-      value: '+1234567890',
-      action: 'sms:+1234567890',
-      gradient: 'from-[#FF0000] to-[#F4007A]'
-    }
-  ];
+  
+  // Custom Input Component for clean styling
+  const FormInput: React.FC<any> = ({ label, name, type, isTextArea = false }) => (
+    <div className="mb-6">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-400 mb-2">
+        {label}
+      </label>
+      {isTextArea ? (
+        <textarea
+          id={name}
+          name={name}
+          rows={4}
+          value={formState[name as keyof typeof formState]}
+          onChange={handleChange}
+          required
+          className="w-full p-4 text-white rounded-lg border border-gray-700 bg-[#0a0a0a] transition-all focus:outline-none focus:border-amber-600 focus:shadow-[0_0_0_1px_#D4AF37] resize-none"
+        ></textarea>
+      ) : (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={formState[name as keyof typeof formState]}
+          onChange={handleChange}
+          required
+          className="w-full p-4 text-white rounded-lg border border-gray-700 bg-[#0a0a0a] transition-all focus:outline-none focus:border-amber-600 focus:shadow-[0_0_0_1px_#D4AF37]"
+        />
+      )}
+    </div>
+  );
 
   return (
-    <section id="contact" className="snap-start min-h-screen flex items-center justify-center bg-[#0A0A0A] relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-[#F4007A] to-[#FF40A6] rounded-full blur-3xl opacity-10 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-[#335B9D] to-[#FF0000] rounded-full blur-3xl opacity-10 animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-[#FF40A6] to-[#335B9D] rounded-full blur-3xl opacity-5 animate-pulse delay-500"></div>
-      </div>
-
-      <div className="container mx-auto px-6 py-20 relative z-10">
+    <section 
+      id="contact" 
+      className="snap-start flex items-center justify-center relative overflow-hidden py-20" 
+    >
+      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#FF40A6] via-[#F4007A] to-[#335B9D] bg-clip-text text-transparent">
-            Get In Touch
+          {/* Title with Regal Gold Gradient Text */}
+          <h2 
+            className="text-4xl md:text-5xl font-bold mb-4 font-serif tracking-widest uppercase"
+            style={regalGoldText}
+          >
+            Contact
           </h2>
-          <p className="text-[#8F8F8F] text-lg">Let's discuss your next project</p>
+          {/* Subtitle in light gray text for contrast on the dark background */}
+          <p className="text-gray-400 text-lg">I'd love to hear from you. Send me a royal decree.</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Methods */}
-          <div>
-            <h3 className="text-2xl font-bold mb-8 text-[#F0F0F0]">Contact Methods</h3>
+        <div className="grid lg:grid-cols-3 gap-9">
+          
+          {/* Contact Information (Left Column - 1/3) */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="lg:col-span-1"
+          >
+            <h3 className="text-2xl font-semibold mb-6 text-white" style={{ fontFamily: 'serif' }}>Direct Channels</h3>
             <div className="space-y-6">
-              {contactMethods.map((method, index) => (
-                <motion.a
-                  key={method.title}
-                  href={method.action}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative block"
+              {contactInfo.map((item) => (
+                <a 
+                  key={item.label} 
+                  href={item.href}
+                  className="flex items-start p-4 rounded-lg bg-[#0a0a0a] border border-gray-800 hover:border-amber-600 transition-all group"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  {/* Gradient Border */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${method.gradient} rounded-2xl blur-sm opacity-30 group-hover:opacity-60 transition-opacity duration-300`}></div>
-                  
-                  {/* Main Card */}
-                  <div 
-                    className="relative flex items-center p-6 rounded-2xl border border-transparent backdrop-blur-xl"
-                    style={{
-                      background: 'linear-gradient(145deg, rgba(59, 10, 14, 0.8), rgba(10, 10, 10, 0.9))',
-                    }}
-                  >
-                    <div className={`flex items-center justify-center w-12 h-12 bg-gradient-to-r ${method.gradient} rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300`}>
-                      <method.icon size={24} className="text-[#0A0A0A]" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-[#F0F0F0] group-hover:text-[#FF40A6] transition-colors">
-                        {method.title}
-                      </h4>
-                      <p className="text-[#8F8F8F] group-hover:text-[#F0F0F0] transition-colors">
-                        {method.value}
-                      </p>
-                    </div>
-                    
-                    {/* Hover Glow */}
-                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${method.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none`}></div>
+                  <item.icon size={20} className="text-amber-500 mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <span className="block text-sm text-left font-medium text-gray-400 group-hover:text-amber-300 transition-colors">{item.label}</span>
+                    <span className="block text-white text-md">{item.value}</span>
                   </div>
-                </motion.a>
+                </a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Contact Form */}
-          <motion.form
+          {/* Contact Form (Right Column - 2/3) */}
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            onSubmit={handleSubmit}
-            className="group relative"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="lg:col-span-2"
           >
-            {/* Form Gradient Border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F4007A] via-[#FF40A6] to-[#335B9D] rounded-2xl blur-sm opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-            
-            {/* Main Form */}
-            <div 
-              className="relative rounded-2xl p-8 border border-transparent backdrop-blur-xl"
-              style={{
-                background: 'linear-gradient(145deg, rgba(59, 10, 14, 0.8), rgba(10, 10, 10, 0.9))',
-              }}
-            >
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-[#8F8F8F] mb-2">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#3B0A0E] rounded-lg focus:ring-2 focus:ring-[#FF40A6] focus:border-transparent text-[#F0F0F0] placeholder-[#8F8F8F] transition-all"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-[#8F8F8F] mb-2">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#3B0A0E] rounded-lg focus:ring-2 focus:ring-[#FF40A6] focus:border-transparent text-[#F0F0F0] placeholder-[#8F8F8F] transition-all"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
+            <form onSubmit={handleSubmit} className="p-8 rounded-2xl bg-[#0a0a0a] border border-gray-800">
+              <h3 className="text-2xl font-semibold mb-8 text-white" style={{ fontFamily: 'serif' }}>Send a Message</h3>
+              
+              <div className="grid sm:grid-cols-2 gap-6">
+                <FormInput label="Your Name" name="name" type="text" />
+                <FormInput label="Your Email" name="email" type="email" />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-[#8F8F8F] mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#3B0A0E] rounded-lg focus:ring-2 focus:ring-[#FF40A6] focus:border-transparent text-[#F0F0F0] placeholder-[#8F8F8F] transition-all"
-                    placeholder="+1234567890"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-[#8F8F8F] mb-2">
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#3B0A0E] rounded-lg focus:ring-2 focus:ring-[#FF40A6] focus:border-transparent text-[#F0F0F0] placeholder-[#8F8F8F] transition-all"
-                    placeholder="Project discussion"
-                  />
-                </div>
+              <div>
+                <FormInput label='Subject' name='subject' type='text' maxlength={25} />
               </div>
-
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-[#8F8F8F] mb-2">
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#3B0A0E] rounded-lg focus:ring-2 focus:ring-[#FF40A6] focus:border-transparent text-[#F0F0F0] placeholder-[#8F8F8F] resize-none transition-all"
-                  placeholder="Tell me about your project..."
-                />
-              </div>
-
+              
+              <FormInput label="Your Message" name="message" type="text" isTextArea={true} />
+              
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#F4007A] to-[#FF40A6] text-[#0A0A0A] py-4 rounded-lg font-bold hover:from-[#FF40A6] hover:to-[#335B9D] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group/btn"
+                className="w-full py-4 text-lg font-bold rounded-xl text-black transition-all duration-300 uppercase tracking-wider mt-4 shadow-lg hover:shadow-amber-500/30"
+                style={{ background: REGAL_GOLD_GRADIENT }}
               >
-                <Send size={20} className="group-hover/btn:scale-110 transition-transform" />
                 Send Message
               </button>
-            </div>
-          </motion.form>
+            </form>
+          </motion.div>
         </div>
       </div>
     </section>

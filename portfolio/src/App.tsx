@@ -1,10 +1,9 @@
 
 import './App.css'
-import { useState } from 'react'
-
 
 //components
 import Hero from './components/Hero'
+import About from './components/About'
 import Skills from './components/Skills'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -21,17 +20,12 @@ function App() {
       <div className='w-full h-screen text-black font-sans overflow-auto'>
         <Header />
         <Hero />
-        <section className="w-full flex items-center px-4 md:px-9 gap-8 overflow-hidden">
-          <div className="flex-1">
-            <Skills />
-          </div>
+        <About />
 
-          <div className="flex-1 min-w-0 text-center flex items-center justify-center p-8">
-            <p className="text-lg md:text-xl leading-relaxed text-white">
-              This section is a description of the technical skills that I offer to the client as a software developer/engineer or service provider.
-            </p>
-          </div>
+        <section className="px-64 py-0 flex items-center justify-center overflow-hidden">
+          <Skills />
         </section>
+
         <Projects />
         <Contact />
         <Footer />

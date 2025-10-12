@@ -1,5 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // Note: Added AnimatePresence import for proper usage
+import React, { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// --- REGAL GOLD STYLING ---
+const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
+const GOLD_HEX = '#D4AF37';
+
+const regalGoldText = {
+  background: REGAL_GOLD_GRADIENT,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  filter: 'drop-shadow(0 0px 5px rgba(255, 215, 0, 0.4))', // Gold shadow for shine
+};
 
 const cards = [
   {
@@ -64,15 +75,17 @@ const cards = [
   },
 ];
 
-export default function Skills() {
+const Card: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [locked, setLocked] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const isTransitioning = useRef(false);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  // FIX: Changed from NodeJS.Timeout to number for browser compatibility
+  const transitionTimeoutRef = useRef<number | null>(null);
 
   const handleStart = (clientX: number) => {
+    // Only allow starting a drag if a transition isn't already active
+    if (transitionTimeoutRef.current) return;
     setStartX(clientX);
     setIsDragging(true);
   };
@@ -81,22 +94,24 @@ export default function Skills() {
     if (!isDragging) return;
     setIsDragging(false);
 
-    if (isTransitioning.current) return;
-
     const diff = startX - clientX;
+    // Minimum distance threshold to trigger a swipe
     if (Math.abs(diff) < 50) return;
 
-    isTransitioning.current = true;
+    // Start transition cooldown
+    if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
 
-    if (diff > 0) {
-      setCurrentIndex((prev) => Math.min(prev + 1, cards.length - 1));
-    } else {
-      setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    if (diff > 0 && currentIndex < cards.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else if (diff < 0 && currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
     }
 
-    setTimeout(() => {
-      isTransitioning.current = false;
-    }, 600);
+    // Set a timeout to prevent rapid swipes/index changes
+    transitionTimeoutRef.current = setTimeout(() => {
+      transitionTimeoutRef.current = null;
+    }, 900); // Matches the motion duration
+
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -105,104 +120,51 @@ export default function Skills() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     handleEnd(e.changedTouches[0].clientX);
   };
-
   const handleMouseDown = (e: React.MouseEvent) => handleStart(e.clientX);
   const handleMouseUp = (e: React.MouseEvent) => handleEnd(e.clientX);
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
+  const handleDotClick = (index: number) => {
+    if (transitionTimeoutRef.current) return;
+    setCurrentIndex(index);
 
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setLocked(true);
-          document.body.style.overflow = "hidden";
-        } else {
-          setLocked(false);
-          document.body.style.overflow = "auto";
-        }
-      },
-      { threshold: 0.85 }
-    );
-
-    obs.observe(el);
-    return () => {
-      obs.disconnect();
-      document.body.style.overflow = "auto";
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!locked) return;
-
-    let lastTime = 0;
-    const deltaCooldown = 600;
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-
-      if (isTransitioning.current) return;
-
-      const now = Date.now();
-      if (now - lastTime < deltaCooldown) return;
-      lastTime = now;
-
-      if (e.deltaY > 0) {
-        if (currentIndex < cards.length - 1) {
-          isTransitioning.current = true;
-          setCurrentIndex((i) => i + 1);
-          setTimeout(() => (isTransitioning.current = false), deltaCooldown);
-        } else {
-          setLocked(false);
-          document.body.style.overflow = "auto";
-        }
-      } else if (e.deltaY < 0) {
-        if (currentIndex > 0) {
-          isTransitioning.current = true;
-          setCurrentIndex((i) => i - 1);
-          setTimeout(() => (isTransitioning.current = false), deltaCooldown);
-        } else {
-          setLocked(false);
-          document.body.style.overflow = "auto";
-        }
-      }
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, [locked, currentIndex]);
+    // Apply cooldown after dot click
+    if (transitionTimeoutRef.current) clearTimeout(transitionTimeoutRef.current);
+    transitionTimeoutRef.current = setTimeout(() => {
+      transitionTimeoutRef.current = null;
+    }, 900);
+  };
 
   const renderStackedCards = () => {
     const backs = [];
     const totalCards = cards.length;
-    const visibleStackCards = Math.min(3, totalCards - 1);
+    // Only show cards *after* the current one. Min of 3, or whatever is left.
+    const visibleStackCards = Math.min(totalCards, totalCards - currentIndex - 1);
 
     for (let i = 1; i <= visibleStackCards; i++) {
-      const cardIndex = (currentIndex + totalCards - i) % totalCards;
       const offset = i * 44;
       const rotation = i * -10;
       const scale = 1 - i * 0.05;
       const opacity = 1 - i * 0.25;
 
       backs.push(
+        // Note: These are intentionally kept as standard divs inside the animated wrapper
         <div
-          key={`stack-${i}-${cardIndex}`}
+          key={`stack-item-${currentIndex + i}`} // Key based on the actual card index being shown
           className="absolute"
           style={{
-            left: `-${offset + 60}px`,
-            top: `${i * 5}px`,
+            left: `-${offset + 50}px`,
+            top: `${i * 7}px`,
             width: "340px",
             height: "580px",
             // --- STACKED CARD STYLING: MAINTAINING SUBTLETY ---
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))", // Used rgba for clarity
+            background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01))",
             backdropFilter: "blur(40px) saturate(180%)",
             WebkitBackdropFilter: "blur(40px) saturate(180%)",
             borderRadius: "36px",
-            border: "1px solid rgba(255, 255, 255, 0.15)", // Slightly crisper border
+            border: `1px solid rgba(255, 255, 255, 0.5)`,
             boxShadow: `
-              0 30px 90px rgba(10, 10, 10, 0.8),
-              inset 0 1px 0 rgba(255, 64, 166, 0.1)
+              0 30px 90px rgba(10, 10, 10, 0.58),
+              inset 0 1px 0 rgba(255, 64, 166, 0.3)
             `,
             transform: `rotateY(${rotation + 30}deg) rotateX(3deg) translateZ(${i * 50}px) scale(${scale})`,
             transformStyle: "preserve-3d",
@@ -218,110 +180,169 @@ export default function Skills() {
 
   return (
     <div
-      ref={sectionRef}
-      className="flex items-center justify-center w-full h-full min-h-screen" 
-      style={{
-        background: 'radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%)' 
-      }}
+      id="skills"
+      className="flex flex-col items-center justify-center w-full py-24 snap-start text-center"
     >
+
+      {/* SECTION TITLE */}
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true, amount: 0.1 }}
+        className="text-5xl font-serif font-light mb-16 tracking-widest uppercase text-center"
+        style={regalGoldText}
+      >
+        Core Skills & Expertise
+      </motion.h2>
+
       <div className="relative mx-auto" style={{ width: "80px", height: "580px", perspective: "2000px" }}>
-        {renderStackedCards()}
 
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -100 }}
-          transition={{ duration: 0.9, ease: "easeInOut" }}
-          className="absolute w-[340px] h-[580px] rounded-[36px] border border-black/20 backdrop-blur-xl bg-black/10 text-center flex flex-col justify-center"
-        >
-          {/* Main Card Container with High-Contrast Glass Styling */}
-          <div
-            className="relative cursor-grab active:cursor-grabbing select-none"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
+        {/* --- STACKED BACKGROUND CARDS WRAPPER (NEW ANIMATION) --- */}
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={`stack-wrapper-${currentIndex}`} // Key change triggers the transition
+            // Use the same animation as the main card to make the stack move with the main card
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -200 }}
+            transition={{ duration: 0.9, ease: [0.17, 0.67, 0.83, 0.98] }}
+            className="absolute top-0 left-0 z-5" // z-5 to be behind the main card (z-10)
+          >
+            {renderStackedCards()}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* --- MAIN CARD CONTAINER --- */}
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 200, scale: 0.8 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -200, scale: 0.8 }}
+            transition={{ duration: 0.9, ease: [0.17, 0.67, 0.83, 0.98] }} // Smoother custom ease
+            className="absolute w-[340px] h-[580px] rounded-[36px] backdrop-blur-xl text-center flex flex-col justify-center z-10" // z-10 to ensure it's on top
             style={{
-              width: "340px",
-              height: "580px",
-
-              // 1. CORE GLASS BASE: EXTREME TRANSPARENCY (NEARLY INVISIBLE BODY)
-              // Reduced opacity from 0.2/0.1 down to 0.08/0.04 to make the body much more transparent.
-              background: "linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04))",
-
-              // 2. BACKDROP FILTER: LOW BLUR FOR CLARITY, INCREASED BRIGHTNESS
-              // Reduced blur further to 60px for minimal distortion, allowing background to be clearer.
-              backdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
-              WebkitBackdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
-
-              borderRadius: "36px",
-
-              // 3. SOFTER SHADOWS & BRIGHT INNER RIM LIGHT
-              border: "none",
-              boxShadow: `
-            // External Shadow (kept dark for depth)
-            0 40px 100px rgba(0, 0, 0, 0.7), 
-            // Wide, soft inner glow—THIS IS THE ONLY VISIBLE WHITE LIGHT ON THE BODY
-            inset 0 0 100px rgba(255, 255, 255, 0.06), // Increased opacity slightly for visible glow
-            // Crisper inner highlight for the top edge definition
-            inset 0 2px 0 rgba(255, 255, 255, 0.4), // Increased opacity for a very defined top reflection
-            // Very subtle, clear outer edge
-            0 0 0 1px rgba(255, 255, 255, 0.08) 
-        `,
-              padding: "48px 32px",
+              // Maintain card position relative to perspective origin
               transform: "perspective(1000px) rotateY(15deg) rotateX(-15deg) translateZ(30deg)",
               perspective: "1000px",
               transformStyle: "preserve-3d",
               overflow: "hidden",
             }}
           >
-            {/* 5. TOP GLASS SHINE (The brightest reflection layer) */}
+            {/* Main Card Container with High-Contrast Glass Styling */}
             <div
-              className="absolute inset-0 w-full h-full pointer-events-none"
+              className="relative cursor-grab active:cursor-grabbing select-none w-[340px] h-[580px] rounded-[36px]"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
               style={{
-            borderRadius: "36px",
-            // Increased the starting opacity (0.9 to 1.0) for a brilliant, clean highlight
-            opacity: 1, // Full opacity for the shine itself
-            filter: 'blur(1px)', 
-        }}
-            />
+                // 1. CORE GLASS BASE: EXTREME TRANSPARENCY
+                background: "linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2))",
 
-            {/* Top Edge Glow - Brightened */}
-            <div
-              className="absolute top-0 left-8 right-8 h-1 pointer-events-none"
-              style={{
-                background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0.8) 80%, transparent 100%)",
-                filter: "blur(2px)",
-                boxShadow: "0 0 30px rgba(255, 255, 255, 0.7)",
+                // 2. BACKDROP FILTER: LOW BLUR FOR CLARITY, INCREASED BRIGHTNESS
+                backdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
+                WebkitBackdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
+
+                borderRadius: "36px",
+
+                // 3. SOFTER SHADOWS & BRIGHT INNER RIM LIGHT
+                border: "none",
+                boxShadow: `
+                      0 40px 100px rgba(0, 0, 0, 0.7), 
+                      inset 0 0 100px rgba(255, 255, 255, 0.06), 
+                      inset 0 2px 0 rgba(255, 255, 255, 0.4), 
+                      0 0 0 1px rgba(255, 255, 255, 0.08) 
+                  `,
+                padding: "48px 32px",
               }}
-            />
-
-            {/* Content Container */}
-            <div className="relative z-10 flex flex-col h-full">
-
-              {/* Card Title */}
-              <h3 className="text-xl font-bold mb-4 text-white">
-                {cards[currentIndex].heading}
-              </h3>
-
-              {/* Description Text (White) */}
-              <p
-                className="text-base leading-relaxed mb-auto text-white" 
+            >
+              {/* 5. TOP GLASS SHINE (The brightest reflection layer) */}
+              <div
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{
-                  color: 'white',
-                  fontWeight: "300",
-                  letterSpacing: "0.02em",
-                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  borderRadius: "36px",
+                  opacity: 1,
+                  filter: 'blur(1px)',
                 }}
-              >
-                {cards[currentIndex].description}
-              </p>
-            </div>
+              />
 
-          </div>
-        </motion.div>
+              {/* Top Edge Glow - Brightened */}
+              <div
+                className="absolute top-0 left-8 right-8 h-1 pointer-events-none"
+                style={{
+                  background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0.8) 80%, transparent 100%)",
+                  filter: "blur(2px)",
+                  boxShadow: "0 0 30px rgba(255, 255, 255, 0.7)",
+                }}
+              />
+
+              {/* Content Container - NOW VERTICALLY CENTERED */}
+              <div className="relative z-10 flex flex-col h-full justify-center items-center text-center">
+
+                {/* Card Title - Applied Regal Gold Text */}
+                <h3 className="text-xl font-bold mb-6" style={regalGoldText}>
+                  {cards[currentIndex].heading}
+                </h3>
+
+                {/* Description Text (White) */}
+                <p
+                  className="text-base leading-relaxed text-white/90 px-4"
+                  style={{
+                    fontWeight: "300",
+                    letterSpacing: "0.02em",
+                    fontFamily: "system-ui, -apple-system, sans-serif",
+                  }}
+                >
+                  {cards[currentIndex].description}
+                </p>
+              </div>
+
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
+
+      {/* --- NAVIGATION DOTS PANEL --- */}
+      <div className="flex justify-center space-x-3 mt-16">
+        {cards.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handleDotClick(index)}
+            className="w-3 h-3 rounded-full transition-all duration-300 transform hover:scale-125 focus:outline-none"
+            aria-label={`Go to skill ${index + 1}`}
+            style={{
+              // Active dot uses the Regal Gold Gradient
+              background: index === currentIndex
+                ? REGAL_GOLD_GRADIENT
+                : 'rgba(255, 255, 255, 0.2)', // Inactive dot is frosted white
+              boxShadow: index === currentIndex
+                ? `0 0 5px ${GOLD_HEX}`
+                : 'none',
+              cursor: 'pointer',
+            }}
+          />
+        ))}
+      </div>
+
     </div>
   );
 }
+
+const Skills: React.FC = () => {
+  return (
+    <>
+      <div className="px-3 flex items-center justify-center overflow-hidden gap-8">
+        <p className="text-left text-lg md:text-lg leading-relaxed text-white">
+          This section is a description of the technical skills that I offer to the client as a software developer/engineer or service provider.
+        </p>
+      </div >
+      <div className="flex-1">
+        <Card />
+      </div>
+    </>
+  );
+}
+
+export default Skills;
