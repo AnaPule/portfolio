@@ -10,8 +10,6 @@ import Footer from './components/Footer'
 import Contact from './components/Contact'
 import Projects from './components/Projects'
 
-//packages
-import { MotionConfig } from 'framer-motion'
 
 function App() {
 
@@ -22,7 +20,7 @@ function App() {
         <Hero />
         <About />
 
-        <section className="px-64 py-0 flex items-center justify-center overflow-hidden">
+        <section className="max-md:p-0 py-0 flex items-center justify-center overflow-hidden">
           <Skills />
         </section>
 

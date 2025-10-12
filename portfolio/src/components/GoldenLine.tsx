@@ -33,7 +33,7 @@ const GoldenLine: React.FC = () => {
       startX: -100,
       centerY: canvas.height / 2,
       time: 0,
-      speed: 0.020,             // How fast it moves
+      speed: 0.040,             // How fast it moves
       waveAmplitude: 90,      // How much it waves up/down
       waveFrequency: 0.015,   // Tightness of waves
       lineWidth: 5            // Thickness of the line
