@@ -18,23 +18,19 @@ const GOLD_BORDER = '1px solid rgba(255, 255, 255, 0.3)';
 const cards = [
   {
     heading: "Angular",
-    description: "TypeScript-based web application framework developed by Google. Angular is ideal for building large-scale enterprise applications with its comprehensive toolset including dependency injection, routing, and form handling.",
+    description: " Angular is ideal for building large-scale enterprise applications with its comprehensive toolset including dependency injection, routing, and form handling.",
   },
   {
     heading: "React", 
-    description: "A JavaScript library for building user interfaces, created and maintained by Facebook. Reacts component-based architecture makes it perfect for creating interactive and reusable UI elements.",
+    description: "A JavaScript library for building user interfaces. Reacts component-based architecture makes it convenient for creating interactive and reusable UI elements.",
   },
   {
     heading: "Javascript",
-    description: "Programming language of the web that brings interactivity and dynamic behavior to websites. JavaScript runs natively in browsers and powers everything from simple form validations to complex single-page applications.",
+    description: "Programming language of the web that brings interactivity and dynamic behavior to websites.",
   },
   {
     heading: "TypeScript",
-    description: "A strongly-typed superset of JavaScript that compiles to plain JavaScript. TypeScript adds static typing, interfaces, and advanced tooling support, making code more maintainable and catching errors during development.",
-  },
-  {
-    heading: "CSS",
-    description: "Styling language that controls the visual presentation of web pages. CSS is essential for creating layouts, animations, responsive designs, and overall aesthetic appeal.",
+    description: "erived from Javascript, TypeScript adds static typing, interfaces, and advanced tooling support, making code more maintainable and catching errors during development.",
   },
   {
     heading: "Tailwind",
