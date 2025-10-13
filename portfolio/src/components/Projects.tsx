@@ -18,46 +18,46 @@ const regalGoldText = {
 const projects = [
   {
     title: 'Capstone Project',
-    description: 'A comprehensive full-stack application showcasing advanced development skills and innovative solutions.',
+    description: 'A client solution that for Cirrus Bridge that centralises all their operations - from Paymo, Toggl and JIRA - into a single application to assist in organisation analytics, employee administration and analytics, client administration and analytics as well as perspective business oppotunities',
     status: 'Completed',
-    technologies: ['React', 'Node.js', 'MongoDB', 'TypeScript'],
+    technologies: ['React', 'Node.js','EJS', 'Docker','SQL', 'TypeScript'],
     links: {
-      live: '#',
-      github: '#'
+      live: 'https://zealous-meadow-07ff63b03.2.azurestaticapps.net/',
+      github: 'https://github.com/INF-370-2025/inf-370-team01'
     }
   },
   {
     title: 'Daily Digest',
-    description: 'A news aggregation platform that curates personalized content based on user preferences.',
+    description: 'A news aggregation platform that curates live crypto data and analytics as well as recent Sounth African news articles and headlines',
     status: 'Completed',
-    technologies: ['Next.js', 'Python', 'PostgreSQL', 'Tailwind'],
+    technologies: ['React','TypeScript','Tailwind','Python', 'MongoDB'],
     links: {
-      live: '#',
-      github: '#'
+      live: 'https://daily-digest-8oa1-pl0wjja2f-anapules-projects.vercel.app/',
+      github: 'https://github.com/AnaPule/daily-digest'
     }
   }
   ,
   {
     title: 'Bookmark API',
-    description: 'RESTful API for managing bookmarks with user authentication and advanced filtering.',
+    description: 'On going...',
     status: 'In Progress',
-    technologies: ['Express.js', 'MongoDB', 'JWT', 'Docker'],
+    technologies: ['Java', 'SpringBoot', 'Postgres'],
     links: {
-      live: '#',
-      github: '#'
+      live: '',
+      github: ''
     }
   }
 ];
 
 const Projects: React.FC = () => {
   return (
-    <section 
-      id="projects" 
+    <section
+      id="projects"
       // Solid black background - clean and simple
-      className="snap-start flex items-center justify-center relative overflow-hidden" 
+      className="snap-start flex items-center justify-center relative overflow-hidden"
     >
       {/* Removed ambient gold background glows */}
-      
+
       <div className="container mx-auto px-6 py-20 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -66,7 +66,7 @@ const Projects: React.FC = () => {
           className="text-center mb-16"
         >
           {/* Title with Regal Gold Gradient Text */}
-          <h2 
+          <h2
             className="text-4xl md:text-5xl font-bold mb-4 font-serif tracking-widest uppercase"
             style={regalGoldText}
           >
@@ -85,9 +85,9 @@ const Projects: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative"
             >
-              
+
               {/* Main Clean Card with Subtle Outline */}
-              <div 
+              <div
                 className="relative rounded-lg p-6 transition-all duration-300 border border-gray-800/50 hover:border-gray-700 bg-zinc-900/30 backdrop-blur-sm"
               >
                 <div className="flex justify-between items-start mb-4">
@@ -96,20 +96,19 @@ const Projects: React.FC = () => {
                     {project.title}
                   </h3>
                   {/* Status Tag: Minimal styling */}
-                  <span className={`px-3 py-1 rounded-md text-xs font-medium ${
-                    project.status === 'Completed' 
+                  <span className={`px-3 py-1 rounded-md text-xs font-medium ${project.status === 'Completed'
                       ? 'bg-zinc-800 text-gray-300 border border-zinc-700'
                       : 'bg-zinc-800/60 text-gray-400 border border-zinc-700/60'
-                  }`}>
+                    }`}>
                     {project.status}
                   </span>
                 </div>
-                
+
                 {/* Description Text: Light gray for contrast */}
                 <p className="text-gray-400 mb-4 leading-relaxed group-hover:text-gray-300 transition-colors">
                   {project.description}
                 </p>
-                
+
                 {/* Technologies: Minimal gray pills with subtle gold accent on hover */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.technologies.map((tech) => (
@@ -121,23 +120,31 @@ const Projects: React.FC = () => {
                     </span>
                   ))}
                 </div>
-                
+
                 {/* Links: Minimal gold accent only on hover */}
                 <div className="flex space-x-4">
-                  <a
-                    href={project.links.live}
-                    className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors group/link"
-                  >
-                    <ExternalLink size={16} className="text-gray-500 group-hover/link:text-amber-300 transition-colors" />
-                    Live Demo
-                  </a>
-                  <a
-                    href={project.links.github}
-                    className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors group/link"
-                  >
-                    <Github size={16} className="text-gray-500 group-hover/link:text-amber-300 transition-colors" />
-                    Code
-                  </a>
+                  {
+                    project.links.live ?
+                    (<a
+                      onClick={() => window.open(project.links.live)}
+                      className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors group/link"
+                    >
+                      <ExternalLink size={16} className="text-gray-500 group-hover/link:text-amber-300 transition-colors" />
+                      Live Demo
+                    </a>):null
+                  }
+
+                  {
+                    project.links.github ?
+                   ( <a
+                      onClick={() => window.open(project.links.github)}
+                      className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-amber-200 transition-colors group/link"
+                    >
+                      <Github size={16} className="text-gray-500 group-hover/link:text-amber-300 transition-colors" />
+                      Code
+                    </a>):null
+                  }
+
                 </div>
               </div>
             </motion.div>

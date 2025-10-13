@@ -1,9 +1,10 @@
-
+import { useRef } from 'react';
+import GoldenLine from './GoldenLine';
 import {ReactTyped} from "react-typed";
 import { motion } from 'framer-motion';
+import generatePDF from 'react-to-pdf';
 import { Download, ChevronDown } from 'lucide-react';
-import GoldenLine from './GoldenLine';
-
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 // --- REGAL GOLD STYLING ---
 // Gradient for shiny, reflective text and borders
 const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
@@ -28,6 +29,13 @@ export default function Hero() {
     filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))',
   };
 
+  const DownloadCV = () => {
+    const targetRef = useRef();
+
+    const options = {
+    filename: 'morwetsana-pule-CV.pdf',
+  };
+  }
   return (
     <>
     <GoldenLine />
@@ -57,7 +65,6 @@ export default function Hero() {
           >
             {giantFaintLetter}
           </motion.div>
-
 
           {/* --- MAIN NAME (Large, spaced, Gold) --- */}
           <motion.h1
@@ -118,6 +125,7 @@ export default function Hero() {
                 gap: '5px',
                 alignItems: 'center'
               }}
+              onClick={() => window.open('/morwetsana-pule-cv.pdf', '_blank', 'noopener,noreferrer')}
             >
               <Download size={20} />
               Download CV
