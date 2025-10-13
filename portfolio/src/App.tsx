@@ -2,7 +2,6 @@
 import './App.css'
 
 //components
-import New from './components/new'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
