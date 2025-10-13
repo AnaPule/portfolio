@@ -1,4 +1,5 @@
 
+import {ReactTyped} from "react-typed";
 import { motion } from 'framer-motion';
 import { Download, ChevronDown } from 'lucide-react';
 import GoldenLine from './GoldenLine';
@@ -10,7 +11,6 @@ const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #F
 export default function Hero() {
   // Corrected Name and Title
   const namePrimary = "Morwetsana Pule";
-  const title = "FULL STACK ARCHITECT";
 
   // Splitting logic updated to reliably separate the first word (Morwetsana) and the rest (Pule)
   const nameParts = namePrimary.split(" ");
@@ -83,7 +83,15 @@ export default function Hero() {
               filter: 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3))', // Slightly less shadow for the subtitle
             }}
           >
-            {title}
+            I AM A{" "}
+            <ReactTyped
+              strings={['Published Author',"UI/UX Designer", 'Software Engineer', 'Software Developer', 'Business analyst', 'Network Engineer', 'Cloud Practitioner']}
+              typeSpeed={100}
+              loop
+              backSpeed={20}
+              cursorChar="|"
+              showCursor={true}
+            />
           </motion.p>
 
           {/* --- CTA BUTTON (Small, clean, gold-framed) --- */}
