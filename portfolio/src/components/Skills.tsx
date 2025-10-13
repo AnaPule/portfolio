@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- REGAL GOLD STYLING ---
+// --- REGAL GOLD STYLING CONSTANTS (Consistent with Contact component) ---
 const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
 const GOLD_HEX = '#D4AF37';
 
@@ -9,8 +9,11 @@ const regalGoldText = {
   background: REGAL_GOLD_GRADIENT,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
-  filter: 'drop-shadow(0 0px 5px rgba(255, 215, 0, 0.4))',
+  filter: 'drop-shadow(0 0px 5px rgba(255, 255, 0, 0.4))',
 };
+
+const GOLD_GLOW = '0 0 20px rgba(255, 255, 255, 0.4)';
+const GOLD_BORDER = '1px solid rgba(255, 255, 255, 0.3)';
 
 const cards = [
   {
@@ -18,7 +21,7 @@ const cards = [
     description: "TypeScript-based web application framework developed by Google. Angular is ideal for building large-scale enterprise applications with its comprehensive toolset including dependency injection, routing, and form handling.",
   },
   {
-    heading: "React",
+    heading: "React", 
     description: "A JavaScript library for building user interfaces, created and maintained by Facebook. Reacts component-based architecture makes it perfect for creating interactive and reusable UI elements.",
   },
   {
@@ -42,7 +45,7 @@ const cards = [
     description: "Object-oriented programming language developed by Microsoft as part of the .NET ecosystem. C# is versatile and powerful, used for building Windows desktop applications, web applications with ASP.NET, and game development with Unity.",
   },
   {
-    heading: ".NET Core",
+    heading: ".NET Core", 
     description: "Cross-platform, open-source framework developed by Microsoft for building modern applications. .NET Core is used for creating web applications, APIs, microservices, and cloud-based solutions.",
   },
   {
@@ -173,7 +176,7 @@ const Card: React.FC = () => {
       id="skills"
       className="flex flex-col items-center justify-center py-5 md:py-24 snap-start text-center px-4 max-sm:px-0"
     >
-      {/* SECTION TITLE - Responsive text size */}
+      {/* SECTION TITLE - Enhanced with better gold styling */}
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -185,17 +188,17 @@ const Card: React.FC = () => {
         Core Skills & Expertise
       </motion.h2>
 
-      {/* Card Container - Responsive sizing and centering */}
-      <div 
-        className="relative mx-auto flex items-center justify-center" 
-        style={{ 
+      {/* Card Container */}
+      <div
+        className="relative mx-auto flex items-center justify-center"
+        style={{
           width: "100%",
           maxWidth: "340px",
-          height: "min(580px, 75vh)", 
-          perspective: "2000px" 
+          height: "min(580px, 75vh)",
+          perspective: "100px"
         }}
       >
-        {/* STACKED BACKGROUND CARDS - Hidden on mobile */}
+        {/* STACKED BACKGROUND CARDS */}
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={`stack-wrapper-${currentIndex}`}
@@ -209,7 +212,7 @@ const Card: React.FC = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* MAIN CARD CONTAINER - Centered on mobile */}
+        {/* MAIN CARD CONTAINER */}
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={currentIndex}
@@ -219,31 +222,32 @@ const Card: React.FC = () => {
             transition={{ duration: 0.9, ease: [0.17, 0.67, 0.83, 0.98] }}
             className="w-full h-full rounded-[24px] md:rounded-[36px] backdrop-blur-xl text-center flex flex-col justify-center z-10 mx-auto"
             style={{
-              transform: window.innerWidth >= 768 
+              transform: window.innerWidth >= 768
                 ? "perspective(1000px) rotateY(15deg) rotateX(-15deg) translateZ(30deg)"
                 : "none",
-              perspective: "1000px",
+              perspective: "100px",
               transformStyle: "preserve-3d",
               overflow: "hidden",
               maxWidth: "min(340px, 90vw)",
             }}
           >
-            {/* Main Card with Responsive Styling */}
+            {/* Main Card - Gold removed from background */}
             <div
-              className="relative cursor-grab active:cursor-grabbing select-none h-full rounded-[24px] md:rounded-[36px]"
+              className="relative cursor-grab active:cursor-grabbing select-none h-full rounded-[24px] md:rounded-[36px] border transition-all duration-300 hover:shadow-2xl"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
               style={{
-                background: "linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2))",
+                background: "linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))",
                 backdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
                 WebkitBackdropFilter: "blur(60px) saturate(150%) brightness(1.2)",
+                border: 'none',
                 boxShadow: `
-                  0 40px 100px rgba(0, 0, 0, 0.7), 
-                  inset 0 0 100px rgba(255, 255, 255, 0.06), 
-                  inset 0 2px 0 rgba(255, 255, 255, 0.4), 
-                  0 0 0 1px rgba(255, 255, 255, 0.08) 
+                  0 40px 100px rgba(0, 0, 0, 0.7),
+                  inset 0 0 100px rgba(255, 255, 255, 0.06),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.4),
+                  0 0 0 1px rgba(255, 255, 255, 0.08)
                 `,
                 padding: "32px 24px md:padding-[48px 32px]",
               }}
@@ -258,17 +262,17 @@ const Card: React.FC = () => {
                 }}
               />
 
-              {/* Content Container - Vertically Centered with Responsive Text */}
+              {/* Content Container */}
               <div className="relative z-10 flex flex-col h-full justify-center items-center text-center">
-                {/* Card Title - Responsive sizing */}
-                <h3 
-                  className="text-lg sm:text-xl md:text-2xl font-bold mb-4 md:mb-6" 
+                {/* Card Title with Gold Gradient */}
+                <h3
+                  className="text-lg sm:text-xl md:text-2xl font-bold mb-4 md:mb-6 tracking-wide"
                   style={regalGoldText}
                 >
                   {cards[currentIndex].heading}
                 </h3>
 
-                {/* Description Text - Responsive sizing and scrollable on small screens */}
+                {/* Description Text */}
                 <div className="overflow-y-auto max-h-[calc(100%-80px)] px-2 md:px-4">
                   <p
                     className="text-sm sm:text-base leading-relaxed text-white/90"
@@ -282,51 +286,63 @@ const Card: React.FC = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Bottom Accent */}
+              <div
+                className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-20 h-0.5 rounded-full"
+                style={{
+                  background: "rgba(255, 255, 255, 0.5)",
+                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+                }}
+              />
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* NAVIGATION DOTS - Responsive sizing and spacing */}
+      {/* NAVIGATION DOTS */}
       <div className="flex justify-center flex-wrap gap-2 md:gap-3 mt-8 md:mt-16 max-w-xs md:max-w-none">
         {cards.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 transform hover:scale-125 focus:outline-none"
+            className="w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 transform hover:scale-125 focus:outline-none"
             aria-label={`Go to skill ${index + 1}`}
             style={{
               background: index === currentIndex
                 ? REGAL_GOLD_GRADIENT
                 : 'rgba(255, 255, 255, 0.2)',
               boxShadow: index === currentIndex
-                ? `0 0 5px ${GOLD_HEX}`
-                : 'none',
+                ? `0 0 10px ${GOLD_HEX}, 0 0 20px rgba(255, 255, 255, 0.5)`
+                : '0 0 5px rgba(255, 255, 255, 0.3)',
               cursor: 'pointer',
             }}
           />
         ))}
       </div>
+
+      {/* Description Text */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="w-full md:w-auto md:max-w-2xl mt-12"
+      >
+        <p className="text-center text-lg leading-relaxed text-white/80 font-light">
+          This section showcases the technical skills and expertise I offer as a software developer, 
+          combining cutting-edge technologies with elegant solutions to create exceptional digital experiences.
+        </p>
+      </motion.div>
     </div>
   );
-}
+};
 
 const Skills: React.FC = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center overflow-hidden gap-4 md:gap-8 px-4 max-sm:px-0 md:px-8">
-      {/* Description Text - Responsive layout */}
-      <div className="w-full md:w-auto md:max-w-md">
-        <p className="text-left text-base max-md: hidden leading-relaxed text-white">
-          This section is a description of the technical skills that I offer to the client as a software developer/engineer or service provider.
-        </p>
-      </div>
-      
-      {/* Card Component */}
-      <div className="flex-1 w-full">
-        <Card />
-      </div>
-    </div>
+    <section className="min-h-screen flex items-center justify-center overflow-hidden">
+      <Card />
+    </section>
   );
-}
+};
 
 export default Skills;
