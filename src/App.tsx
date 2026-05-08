@@ -30,7 +30,6 @@ const CrossHair = ({ className }: { className?: string }) => (
 );
 
 const Topnav: React.FC = () => {
-  // Helper for that gold gradient text
   const goldTextStyle = {
     background: REGAL_GOLD_GRADIENT,
     WebkitBackgroundClip: 'text',
@@ -39,21 +38,21 @@ const Topnav: React.FC = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-[100] w-full backdrop-blur-lg border-b border-black/5 font-sans uppercase font-bold tracking-[2px] text-[13px] sm:text-sm">
-      <div className="max-w-6xl mx-auto flex items-center justify-center sm:justify-end px-6 md:px-10 h-16 gap-6 md:gap-10">
+    <nav className="sticky top-0 z-[100] w-full backdrop-blur-lg border-b border-black/5 font-sans uppercase font-bold tracking-[2px] text-[11px] sm:text-sm bg-[#d2cdc4]/10">
+      <div className="max-w-6xl mx-auto flex items-center justify-start sm:justify-end px-4 sm:px-10 h-16 overflow-x-auto no-scrollbar gap-5 sm:gap-10">
         {[
           { name: 'Home', href: '#home' },
-          { name: 'About Me', href: '#introduction' },
+          { name: 'About', href: '#introduction' },
           { name: 'Education', href: '#education' },
           { name: 'Experience', href: '#experience' },
           { name: 'Skills', href: '#skills' },
           { name: 'Projects', href: '#projects' },
-          { name: 'Contact me', href: '#contact' },
+          { name: 'Contact', href: '#contact' },
         ].map((item) => (
           <a
             key={item.name}
             href={item.href}
-            className="transition-opacity duration-300 whitespace-nowrap hover:opacity-70"
+            className="transition-opacity duration-300 whitespace-nowrap hover:opacity-70 flex-shrink-0"
             style={goldTextStyle}
           >
             {item.name}
@@ -66,88 +65,80 @@ const Topnav: React.FC = () => {
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center bg-[#d2cdc4] overflow-hidden border-b border-black/5 mb-10">
-      <div className="left-margin-strip" />
-      <CrossHair className="absolute top-10 right-10" />
-      <CrossHair className="absolute bottom-20 left-[60px]" />
+    <section id="home" className="relative min-h-screen flex items-center bg-[#d2cdc4] overflow-hidden border-b border-black/5 pt-20 pb-10">
+      {/* Margin strip hidden on mobile */}
+      <div className="hidden md:block left-margin-strip" />
 
-      <div className="relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-10 items-center pl-14 pr-12">
-        <div className="space-y-2">
-          <h1 className="text-[80px] font-serif leading-[0.9] uppercase tracking-tighter text-black">
+      <div className="relative z-10 max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-10 items-center px-6 md:pl-20 md:pr-12">
+        <div className="space-y-4 text-center md:text-left order-2 md:order-1">
+          <h1 className="text-5xl sm:text-6xl md:text-[80px] font-serif leading-[0.9] uppercase tracking-tighter text-black">
             Morwetsana<br />Mahlatse<br />Pule
           </h1>
-          <p className="text-md mb-[16px] capitalize tracking-tight font-medium mt-4 text-black/80">Software Development • Cybersecurity • Networking</p>
-          <span
-            className='relative p-[2px] rounded-lg flex items-center justify-center w-60 mt-[40rem] mx-auto cursor-pointer transition-transform hover:scale-105 active:scale-95'
-            style={{ background: REGAL_GOLD_GRADIENT }}
-            onClick={() => window.open(CV, '_blank', 'noopener,noreferrer')}
-          >
-            <div className="bg-[#d2cdc4] w-full h-full py-4 rounded-[6px] flex gap-4 items-center justify-center font-bold text-black">
-              <Download size={20} />
-              Download CV
-            </div>
-          </span>
+          <p className="text-md sm:text-md capitalize tracking-tight font-medium text-black/80">
+            Software Development • Cybersecurity • Networking
+          </p>
+
+          <div className="pt-2">
+            <button
+              className='relative p-[2px] rounded-lg flex items-center justify-center w-full sm:w-60 mx-auto md:mx-0 cursor-pointer transition-transform hover:scale-105 active:scale-95'
+              style={{ background: REGAL_GOLD_GRADIENT }}
+              onClick={() => window.open(CV, '_blank')}
+            >
+              <div className="bg-[#d2cdc4] w-full h-full py-4 rounded-[6px] flex gap-4 items-center justify-center font-bold text-black">
+                <Download size={20} />
+                Download CV
+              </div>
+            </button>
+          </div>
         </div>
 
-        <div className="flex justify-center md:justify-end ml-10">
-          <div className="w-[380px] h-[480px] bg-[#d2cdc4] shape-hero shadow-2xl border-[12px] border-[#d2cdc4] overflow-hidden">
-            <div
-              className="w-full h-full p-[3px] shape-hero"
-              style={{ background: REGAL_GOLD_GRADIENT }}
-            >
-
-              {/* Inner Layer (The Actual Image) */}
+        <div className="flex justify-center md:justify-end order-1 md:order-2">
+          <div className="w-[280px] h-[350px] sm:w-[380px] sm:h-[480px] bg-[#d2cdc4] shape-hero shadow-2xl border-[8px] sm:border-[12px] border-[#d2cdc4] overflow-hidden">
+            <div className="w-full h-full p-[3px] shape-hero" style={{ background: REGAL_GOLD_GRADIENT }}>
               <div className="w-full h-full overflow-hidden shape-hero bg-[#8b6b58]">
-                <img
-                  src={Portrait2}
-                  className="w-full h-full object-cover"
-                  alt="Portrait"
-                />
+                <img src={Portrait2} className="w-full h-full object-cover" alt="Portrait" />
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
-
 };
 
 const Introduction = () => (
-  <section id="introduction" className="relative py-24 bg-[#d2cdc4] border-b border-black/5 my-10">
+  <section id="introduction" className="relative py-12 md:py-24 bg-[#d2cdc4] border-b border-black/5 my-5 md:my-10">
     <div className="left-margin-strip" />
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 pl-24 pr-12 relative z-10">
-      <div className="space-y-12">
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-20 px-6 md:pl-24 md:pr-12 relative z-10">
+      <div className="space-y-6 md:space-y-12">
         <div className="relative">
-          <h2 className="text-7xl font-serif mb-8">Introduction</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif mb-4 md:mb-8">Introduction</h2>
           {/* The thin L-bracket */}
-          <div className="absolute -left-10 top-0 bottom-0 w-px bg-black/20" />
-          <div className="absolute -left-10 bottom-0 h-px w-8 bg-black/20" />
+          <div className="absolute -left-6 md:-left-10 top-0 bottom-0 w-px bg-black/20" />
+          <div className="absolute -left-6 md:-left-10 bottom-0 h-px w-6 md:w-8 bg-black/20" />
         </div>
 
-        <div className="space-y-6 text-black">
+        <div className="space-y-4 md:space-y-6 text-black">
           <div>
-            <h3 className="text-lg font-bold mb-2">About me</h3>
-            <p className="text-[15px] leading-relaxed text-black/80">
+            <h3 className="text-base md:text-lg font-bold mb-1 md:mb-2">About me</h3>
+            <p className="text-sm md:text-[15px] leading-relaxed text-black/80">
               My name is Morwetsana Mahlatse Pule. I am a soon-to-be BCom Informatics graduate from the University of Pretoria with a growing interest in software development, cybersecurity, and networking. I enjoy building practical solutions, learning new technologies, and continuously challenging myself to grow within the technical space.
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-2">Personal projects</h3>
-            <p className="text-[15px] leading-relaxed text-black/80">
+            <h3 className="text-base md:text-lg font-bold mb-1 md:mb-2">Personal projects</h3>
+            <p className="text-sm md:text-[15px] leading-relaxed text-black/80">
               My projects range from academic systems and full-stack applications to smaller personal projects focused on improving my technical and problem-solving skills. Through these projects, I have explored software development, databases, analytics, automation, and foundational cybersecurity concepts.
             </p>
           </div>
-
         </div>
       </div>
 
-      <div className="flex justify-center items-center relative">
-        <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-20"><Sparkle /></div>
-        <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-20"><Sparkle /></div>
-        <div className="w-[320px] h-[450px] shape-arch overflow-hidden border-[1px] border-black/20 p-3">
-          <img src={Portrait1} className="w-full h-full object-cover shape-arch" />
+      <div className="flex justify-center items-center relative mt-6 md:mt-0">
+        <div className="absolute -left-3 md:-left-4 top-1/2 -translate-y-1/2 z-20"><Sparkle /></div>
+        <div className="absolute -right-3 md:-right-4 top-1/2 -translate-y-1/2 z-20"><Sparkle /></div>
+        <div className="w-[260px] sm:w-[300px] md:w-[320px] h-[380px] sm:h-[420px] md:h-[450px] shape-arch overflow-hidden border border-black/20 p-2 md:p-3">
+          <img src={Portrait1} className="w-full h-full object-cover shape-arch" alt="Portrait" />
         </div>
       </div>
     </div>
@@ -155,25 +146,25 @@ const Introduction = () => (
 );
 
 const Education = () => (
-  <section id="education" className="relative py-24 bg-[#d2cdc4] my-10">
-    <div className="absolute top-10 left-10 opacity-20"><Sparkle /></div>
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 px-12">
+  <section id="education" className="relative py-12 md:py-24 bg-[#d2cdc4] my-5 md:my-10 h-98">
+    <div className="absolute top-5 md:top-10 left-5 md:left-10 opacity-20"><Sparkle /></div>
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 px-4 md:px-12">
       <div>
-        <h2 className="text-7xl font-serif mb-16">Education</h2>
-        <div className="space-y-12">
+        <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif mb-8 md:mb-16">Education</h2>
+        <div className="space-y-8 md:space-y-12">
           {[
-            { date: 'Feb 2023', lvl: 'undergraduate', school: "University of Pretoria", deg: "BCom specialising in Informatics", place: 'South Africa, Pretoria' },
-            { date: 'Dec 2022', lvl: `Bachelar's Pass`, school: "Hoërskool Birchleigh", deg: "National Senior Certificate", place: 'South Africa, Kempton Park' }
+            { date: 'Feb 2023', lvl: 'Undergraduate', school: "University of Pretoria", deg: "BCom specialising in Informatics", place: 'South Africa, Pretoria' },
+            { date: 'Dec 2022', lvl: `Bachelor's Pass`, school: "Hoërskool Birchleigh", deg: "National Senior Certificate", place: 'South Africa, Kempton Park' }
           ].map((edu, i) => (
-            <div key={i} className="flex gap-6 items-start">
-              <GraduationCap size={40} fill="black" color='black' strokeWidth='0.5px' />
-              <div className='flex flex-row gap-10 items-start'>
+            <div key={i} className="flex gap-4 md:gap-6 items-start">
+              <GraduationCap size={32} className="md:w-[40px] md:h-[40px]" fill="black" color='black' strokeWidth='0.5px' />
+              <div className='flex flex-col sm:flex-row gap-3 sm:gap-10 items-start'>
                 <section className='text-left'>
-                  <h3 className='text-sm text-black font-bold font-sans'>{edu.date}</h3>
+                  <h3 className='text-xs md:text-sm text-black font-bold font-sans'>{edu.date}</h3>
                   <p className='italic text-xs text-black'>Present</p>
                 </section>
-                <section className='font-sans text-black text-left flex-1 text-sm capitalize'>
-                  <h4 className="font-sans font-bold text-sm">{edu.deg}</h4>
+                <section className='font-sans text-black text-left text-xs md:text-sm capitalize'>
+                  <h4 className="font-sans font-bold text-xs md:text-sm">{edu.deg}</h4>
                   <p>{edu.lvl}</p>
                   <p>{edu.school}</p>
                   <p>| {edu.place}</p>
@@ -184,38 +175,36 @@ const Education = () => (
         </div>
       </div>
 
-      <div className="relative">
-        <div className="absolute top-0 right-0 z-20"><Sparkle /></div>
+      <div className="relative mt-8 md:mt-0">
+        <div className="absolute -top-6 md:top-0 right-0 z-20"><Sparkle /></div>
         <div
-          className="w-full h-98 shape-education p-[2px]"
+          className="w-full h-64 sm:h-80 md:h-98 shape-education p-[2px]"
           style={{ background: REGAL_GOLD_GRADIENT }}
         >
-          <div className="w-full h-full bg-[#d2cdc4] shape-education overflow-hidden p-3">
-
+          <div className="w-full h-full bg-[#d2cdc4] shape-education overflow-hidden p-2 md:p-3">
             <img
               src={Portrait3}
-              className="w-full h-98 object-cover shape-education"
+              className="w-full h-full object-cover shape-education"
               alt="Education Illustration"
             />
           </div>
         </div>
-
       </div>
     </div>
   </section>
 );
 
 const Experience = () => (
-  <section id="experience" className="relative py-20 bg-[#d2cdc4] border-t border-black/5 my-10">
-    <div className="absolute top-10 right-10"><Sparkle /></div>
-    <div className="absolute bottom-20 left-10"><Sparkle /></div>
-    <CrossHair className="absolute top-1/3 right-20" />
+  <section id="experience" className="relative py-12 md:py-20 bg-[#d2cdc4] border-t border-black/5 my-5 md:my-10">
+    <div className="absolute top-5 md:top-10 right-5 md:right-10"><Sparkle /></div>
+    <div className="absolute bottom-10 md:bottom-20 left-5 md:left-10"><Sparkle /></div>
+    <CrossHair className="absolute top-1/3 right-5 md:right-20" />
     <CrossHair className="absolute bottom-1/4 left-[5%]" />
-    
-    <div className="max-w-6xl mx-auto px-12 relative z-10">
-      <h2 className="text-7xl font-serif mb-10 text-left">Experience</h2>
 
-      <div className="space-y-16 overflow-y-scroll h-[25rem]">
+    <div className="max-w-6xl mx-auto px-4 md:px-12 relative z-10">
+      <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif mb-6 md:mb-10 text-left">Experience</h2>
+
+      <div className="space-y-12 md:space-y-16 overflow-y-scroll h-[25rem] md:h-[25rem]">
         {[
           {
             role: "tutor",
@@ -239,7 +228,7 @@ const Experience = () => (
           },
           {
             role: "Teaching Assistant",
-            company: "University Of Pretoria, Pretoria, Hatfield" ,
+            company: "University Of Pretoria, Pretoria, Hatfield",
             date: "Feb 2025 – Nov 2025 ",
             description: `As a Teaching Assistant in the Department of Informatics, I support course delivery
                           by assisting with tutoring, grading, and administrative tasks. My role ensures that
@@ -255,22 +244,22 @@ const Experience = () => (
                           environment.`
           }
         ].map((job, i) => (
-          <div key={i} className="grid md:grid-cols-[200px_1fr] gap-8 items-start relative">
+          <div key={i} className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8 items-start relative">
             {/* Add a little sparkle next to each job */}
-            {i === 0 && <div className="absolute -left-6 -top-2"><Sparkle /></div>}
-            
-            <div className="relative flex items-center gap-4">
-              <ChessPawn size={20} fill="black" />
-              <span className="text-xs font-bold uppercase text-left">
+            {i === 0 && <div className="absolute -left-4 md:-left-6 -top-2"><Sparkle /></div>}
+
+            <div className="relative flex items-center gap-3 md:gap-4">
+              <ChessPawn size={16} className="md:w-[20px] md:h-[20px]" fill="black" />
+              <span className="text-[11px] md:text-xs font-bold uppercase text-left">
                 {job.date} <br />
-                <p className='text-xs italic'>{job.present ? 'Present' : null}</p>
+                <span className='text-[10px] md:text-xs italic'>{job.present ? 'Present' : null}</span>
               </span>
             </div>
 
-            <div className="space-y-2 border-l border-black/10 pl-8 text-left">
-              <h3 className="text-2xl font-sans font-bold capitalize">{job.role}</h3>
-              <p className="text-sm font-bold uppercase text-black/60">{job.company}</p>
-              <p className="text-[15px] leading-relaxed text-black/80 max-w-2xl">
+            <div className="space-y-1 md:space-y-2 border-l border-black/10 pl-4 md:pl-8 text-left">
+              <h3 className="text-base md:text-2xl font-sans font-bold capitalize">{job.role}</h3>
+              <p className="text-xs md:text-sm font-bold uppercase text-black/60 break-words">{job.company}</p>
+              <p className="text-sm md:text-[15px] leading-relaxed text-black/80 max-w-2xl">
                 {job.description}
               </p>
             </div>
@@ -282,17 +271,17 @@ const Experience = () => (
 );
 
 const Technical = () => (
-  <section id="skills" className="py-24 px-12 bg-[#d2cdc4] border-t border-black/5 my-10">
-    <div className="max-w-5xl mx-auto border border-black/40 p-16 relative">
-      <div className="absolute top-4 left-4"><Sparkle /></div>
-      <div className="absolute bottom-4 right-4"><Sparkle /></div>
+  <section id="skills" className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+    <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
+      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
+      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
 
-      <h2 className="text-6xl font-serif mb-8 text-center">Technical Skills</h2>
-      <p className="text-center max-w-2xl mx-auto mb-16 text-sm leading-relaxed text-black">
+      <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center">Technical Skills</h2>
+      <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         I have developed a foundation across software development, databases, networking, and cybersecurity through academic work, personal projects, and self-study. While still growing in many areas, I enjoy learning new technologies and expanding both my technical and practical skill set.
       </p>
 
-      <div className="flex overflow-scroll gap-12">
+      <div className="flex overflow-x-scroll gap-6 md:gap-12 pb-4">
         {[
           { label: "JavaScript", level: "Intermediate" },
           { label: "C#", level: "Advanced" },
@@ -312,22 +301,31 @@ const Technical = () => (
           { label: "Microsoft Office", level: "Advanced" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
+          // SVG circle values scale with container size
+          const isMobile = window.innerWidth < 768;
+          const size = isMobile ? 80 : 144;
+          const center = size / 2;
+          const radius = size * 0.45;
+          const circumference = 2 * Math.PI * radius;
+          const dashArray = (percentage / 100) * circumference;
+          
           return (
-            <div key={i} className="flex flex-col items-center">
-              <div className="w-36 h-36 rounded-full flex items-center justify-center mb-6 relative">
+            <div key={i} className="flex flex-col items-center flex-shrink-0 w-[80px] md:w-[144px]">
+              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
                 <svg className="absolute inset-0 w-full h-full -rotate-90">
                   <circle
-                    cx="77" cy="78" r="72.95"
+                    cx={center}
+                    cy={center}
+                    r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth="8"
-                    strokeDasharray={`${percentage * 4.7} 400`}
+                    strokeWidth={isMobile ? 5 : 8}
+                    strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-sm font-sans italic">{s.level}</span>
-                {/* Or show percentage: {percentage}% */}
+                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
             </div>
           );
         })}
@@ -337,39 +335,47 @@ const Technical = () => (
 );
 
 const Management = () => (
-  <section className="py-24 px-12 bg-[#d2cdc4] border-t border-black/5 my-10">
-    <div className="max-w-5xl mx-auto border border-black/40 p-16 relative">
-      <div className="absolute top-4 left-4"><Sparkle /></div>
-      <div className="absolute bottom-4 right-4"><Sparkle /></div>
+  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+    <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
+      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
+      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
 
-      <h2 className="text-6xl font-serif mb-8 text-center">Management Skills</h2>
-      <p className="text-center max-w-2xl mx-auto mb-16 text-sm leading-relaxed text-black">
+      <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center">Management Skills</h2>
+      <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         Beyond technical work, I have experience using collaborative and organisational tools within academic and project environments. These skills have helped me communicate effectively, manage tasks, and work efficiently within teams.
       </p>
 
-      <div className="flex overflow-scroll gap-12 justify-center">
+      <div className="flex flex-wrap justify-center gap-6 md:gap-12">
         {[
           { label: "Zoom", level: "Advanced" },
           { label: "JIRA", level: "Advanced" },
-          { label: "power bi", level: "Beginner" },
+          { label: "Power BI", level: "Beginner" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
+          const isMobile = window.innerWidth < 768;
+          const size = isMobile ? 80 : 144;
+          const center = size / 2;
+          const radius = size * 0.45;
+          const circumference = 2 * Math.PI * radius;
+          const dashArray = (percentage / 100) * circumference;
+          
           return (
-            <div key={i} className="flex flex-col items-center">
-              <div className="w-36 h-36 rounded-full flex items-center justify-center mb-6 relative">
+            <div key={i} className="flex flex-col items-center w-[80px] md:w-[144px]">
+              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
                 <svg className="absolute inset-0 w-full h-full -rotate-90">
                   <circle
-                    cx="77" cy="78" r="72.95"
+                    cx={center}
+                    cy={center}
+                    r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth="8"
-                    strokeDasharray={`${percentage * 4.7} 400`}
+                    strokeWidth={isMobile ? 5 : 8}
+                    strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-sm font-sans italic">{s.level}</span>
-                {/* Or show percentage: {percentage}% */}
+                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
             </div>
           );
         })}
@@ -379,40 +385,48 @@ const Management = () => (
 );
 
 const Interpersonal = () => (
-  <section className="py-24 px-12 bg-[#d2cdc4] border-t border-black/5 my-10">
-    <div className="max-w-5xl mx-auto border border-black/40 p-16 relative">
-      <div className="absolute top-4 left-4"><Sparkle /></div>
-      <div className="absolute bottom-4 right-4"><Sparkle /></div>
+  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+    <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
+      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
+      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
 
-      <h2 className="text-6xl font-serif mb-8 text-center capitalize">Interpersonal and Soft Skills</h2>
-      <p className="text-center max-w-2xl mx-auto mb-16 text-sm leading-relaxed text-black">
+      <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center capitalize">Interpersonal and Soft Skills</h2>
+      <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         I value clear communication, collaboration, and adaptability in both academic and professional environments. Working in teams, tutoring, and assisting others has strengthened my ability to work with people and approach challenges calmly and practically.
       </p>
 
-      <div className="flex overflow-scroll gap-12 justify-center">
+      <div className="flex flex-wrap justify-center gap-6 md:gap-12">
         {[
           { label: "Teamwork", level: "Advanced" },
           { label: "Collaboration", level: "Advanced" },
-          { label: "Leadership skills", level: "Intermediate" },
-          { label: "Communication skills", level: "Advanced" },
+          { label: "Leadership", level: "Intermediate" },
+          { label: "Communication", level: "Advanced" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
+          const isMobile = window.innerWidth < 768;
+          const size = isMobile ? 80 : 144;
+          const center = size / 2;
+          const radius = size * 0.45;
+          const circumference = 2 * Math.PI * radius;
+          const dashArray = (percentage / 100) * circumference;
+          
           return (
-            <div key={i} className="flex flex-col items-center">
-              <div className="w-36 h-36 rounded-full flex items-center justify-center mb-6 relative">
+            <div key={i} className="flex flex-col items-center w-[80px] md:w-[144px]">
+              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
                 <svg className="absolute inset-0 w-full h-full -rotate-90">
                   <circle
-                    cx="77" cy="78" r="72.95"
+                    cx={center}
+                    cy={center}
+                    r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth="8"
-                    strokeDasharray={`${percentage * 4.7} 400`}
+                    strokeWidth={isMobile ? 5 : 8}
+                    strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-sm font-sans italic">{s.level}</span>
-                {/* Or show percentage: {percentage}% */}
+                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
             </div>
           );
         })}
@@ -459,7 +473,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-24 px-12 bg-[#d2cdc4] my-10">
+    <section id="projects" className="py-24 px-12 bg-[#d2cdc4] my-5">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
@@ -592,7 +606,7 @@ function App() {
       <Introduction />
       <Education />
       <Experience />
-      <section className='flex flex-col lg:flex-row gap-10 overflow-scroll'>
+      <section className='flex flex-col lg:flex-row gap-1 overflow-scroll'>
         <Technical />
         <Management />
         <Interpersonal />

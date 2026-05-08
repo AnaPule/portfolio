@@ -64,3 +64,38 @@ body {
   background: black;
   border-radius: 50%;
 }
+
+/* ========== MOBILE RESPONSIVE (ONLY ADDITIONS) ========== */
+@media (max-width: 1024px) {
+  .left-margin-strip, .right-margin-strip {
+    width: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-margin-strip, .right-margin-strip {
+    display: none;
+  }
+  
+  .shape-hero { 
+    border-radius: 24px; 
+  }
+  
+  .shape-arch { 
+    border-radius: 300px 300px 24px 24px; 
+  }
+  
+  .shape-education { 
+    border-radius: 0px 80px 80px 80px; 
+  }
+  
+  .cross-star {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .cross-star .dot {
+    width: 3px;
+    height: 3px;
+  }
+}
