@@ -271,17 +271,17 @@ const Experience = () => (
 );
 
 const Technical = () => (
-  <section id="skills" className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+  <section id="skills" className="py-5 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 my-5 md:my-10">
     <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
-      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
-      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
+      <div className="absolute top-4 left-4"><Sparkle /></div>
+      <div className="absolute bottom-4 right-4"><Sparkle /></div>
 
       <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center">Technical Skills</h2>
       <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         I have developed a foundation across software development, databases, networking, and cybersecurity through academic work, personal projects, and self-study. While still growing in many areas, I enjoy learning new technologies and expanding both my technical and practical skill set.
       </p>
 
-      <div className="flex overflow-x-scroll gap-6 md:gap-12 pb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-12 gap-y-16 md:gap-x-16 md:gap-y-20 place-items-center max-h-[20rem] md:max-h-[20rem] overflow-y-auto pr-4">
         {[
           { label: "JavaScript", level: "Intermediate" },
           { label: "C#", level: "Advanced" },
@@ -301,31 +301,27 @@ const Technical = () => (
           { label: "Microsoft Office", level: "Advanced" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
-          // SVG circle values scale with container size
-          const isMobile = window.innerWidth < 768;
-          const size = isMobile ? 80 : 144;
-          const center = size / 2;
-          const radius = size * 0.45;
+          const radius = 60;
           const circumference = 2 * Math.PI * radius;
           const dashArray = (percentage / 100) * circumference;
           
           return (
-            <div key={i} className="flex flex-col items-center flex-shrink-0 w-[80px] md:w-[144px]">
-              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
-                <svg className="absolute inset-0 w-full h-full -rotate-90">
+            <div key={i} className="flex flex-col items-center w-full max-w-[100px] md:max-w-[120px]">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-4 relative">
+                <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 140 140">
                   <circle
-                    cx={center}
-                    cy={center}
+                    cx="70"
+                    cy="70"
                     r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth={isMobile ? 5 : 8}
+                    strokeWidth="6"
                     strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
+                <span className="text-[10px] md:text-xs font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[10px] md:text-xs uppercase tracking-tighter text-center text-black break-words">{s.label}</p>
             </div>
           );
         })}
@@ -335,47 +331,44 @@ const Technical = () => (
 );
 
 const Management = () => (
-  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 my-5 md:my-10">
     <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
-      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
-      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
+      <div className="absolute top-4 left-4"><Sparkle /></div>
+      <div className="absolute bottom-4 right-4"><Sparkle /></div>
 
       <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center">Management Skills</h2>
       <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         Beyond technical work, I have experience using collaborative and organisational tools within academic and project environments. These skills have helped me communicate effectively, manage tasks, and work efficiently within teams.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+      <div className="flex flex-wrap justify-center gap-6 md:gap-12 max-h-[20rem] md:min-h-[20rem]">
         {[
           { label: "Zoom", level: "Advanced" },
           { label: "JIRA", level: "Advanced" },
           { label: "Power BI", level: "Beginner" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
-          const isMobile = window.innerWidth < 768;
-          const size = isMobile ? 80 : 144;
-          const center = size / 2;
-          const radius = size * 0.45;
+          const radius = 60;
           const circumference = 2 * Math.PI * radius;
           const dashArray = (percentage / 100) * circumference;
           
           return (
-            <div key={i} className="flex flex-col items-center w-[80px] md:w-[144px]">
-              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
-                <svg className="absolute inset-0 w-full h-full -rotate-90">
+            <div key={i} className="flex flex-col items-center w-[100px] md:w-[120px]">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-3 relative">
+                <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 140 140">
                   <circle
-                    cx={center}
-                    cy={center}
+                    cx="70"
+                    cy="70"
                     r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth={isMobile ? 5 : 8}
+                    strokeWidth="6"
                     strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
+                <span className="text-[10px] md:text-xs font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[10px] md:text-xs uppercase tracking-tighter text-center text-black max-w-[90px] md:max-w-[110px]">{s.label}</p>
             </div>
           );
         })}
@@ -385,17 +378,17 @@ const Management = () => (
 );
 
 const Interpersonal = () => (
-  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 mb-5 md:my-10">
+  <section className="py-12 md:py-24 px-4 md:px-12 bg-[#d2cdc4] border-t border-black/5 my-5 md:my-10">
     <div className="max-w-5xl mx-auto border border-black/30 md:border-black/40 p-4 md:p-16 relative">
-      <div className="absolute top-2 md:top-4 left-2 md:left-4"><Sparkle /></div>
-      <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4"><Sparkle /></div>
+      <div className="absolute top-4 left-4"><Sparkle /></div>
+      <div className="absolute bottom-4 right-4"><Sparkle /></div>
 
       <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif mb-4 md:mb-8 text-center capitalize">Interpersonal and Soft Skills</h2>
       <p className="text-center text-xs sm:text-sm max-w-2xl mx-auto mb-8 md:mb-16 leading-relaxed text-black px-2">
         I value clear communication, collaboration, and adaptability in both academic and professional environments. Working in teams, tutoring, and assisting others has strengthened my ability to work with people and approach challenges calmly and practically.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+      <div className="flex flex-wrap justify-center gap-6 md:gap-12 min-h-[220px] md:min-h-[280px]">
         {[
           { label: "Teamwork", level: "Advanced" },
           { label: "Collaboration", level: "Advanced" },
@@ -403,30 +396,27 @@ const Interpersonal = () => (
           { label: "Communication", level: "Advanced" },
         ].map((s, i) => {
           const percentage = getPercentage(s.level);
-          const isMobile = window.innerWidth < 768;
-          const size = isMobile ? 80 : 144;
-          const center = size / 2;
-          const radius = size * 0.45;
+          const radius = 60;
           const circumference = 2 * Math.PI * radius;
           const dashArray = (percentage / 100) * circumference;
           
           return (
-            <div key={i} className="flex flex-col items-center w-[80px] md:w-[144px]">
-              <div className="w-20 h-20 md:w-36 md:h-36 rounded-full flex items-center justify-center mb-3 md:mb-6 relative">
-                <svg className="absolute inset-0 w-full h-full -rotate-90">
+            <div key={i} className="flex flex-col items-center w-[100px] md:w-[120px]">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-3 relative">
+                <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 140 140">
                   <circle
-                    cx={center}
-                    cy={center}
+                    cx="70"
+                    cy="70"
                     r={radius}
                     fill="transparent"
                     stroke="#8b6b58"
-                    strokeWidth={isMobile ? 5 : 8}
+                    strokeWidth="6"
                     strokeDasharray={`${dashArray} ${circumference}`}
                   />
                 </svg>
-                <span className="text-[10px] md:text-sm font-sans italic">{s.level}</span>
+                <span className="text-[10px] md:text-xs font-sans italic">{s.level}</span>
               </div>
-              <p className="font-bold text-[9px] md:text-xs uppercase tracking-tighter text-center text-black">{s.label}</p>
+              <p className="font-bold text-[10px] md:text-xs uppercase tracking-tighter text-center text-black max-w-[90px] md:max-w-[110px]">{s.label}</p>
             </div>
           );
         })}
