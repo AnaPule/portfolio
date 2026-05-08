@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --margin-color: #c4beb4; /* The darker side-strip color */
+  --text-dark: #1a1a1a;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+}
+
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+/* The vertical strip on the left */
+.left-margin-strip {
+  width: 150px;
+  background-color: var(--margin-color);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+}
+
+.right-margin-strip {
+  width: 180px;
+  background-color: var(--margin-color);
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 0;
+}
+
+/* Image Shapes */
+.shape-hero { border-radius: 40px; }
+.shape-arch { border-radius: 500px 500px 40px 40px; border: 1px solid rgba(0,0,0,0.2); }
+.shape-education { border-radius: 0px 150px 150px 150px; }
+
+/* The thin cross-hair star */
+.cross-star {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+.cross-star::before, .cross-star::after {
+  content: '';
+  position: absolute;
+  background: black;
+  opacity: 0.4;
+}
+.cross-star::before { width: 1px; height: 100%; left: 50%; }
+.cross-star::after { height: 1px; width: 100%; top: 50%; }
+.cross-star .dot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  background: black;
+  border-radius: 50%;
+}
