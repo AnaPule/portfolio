@@ -4,8 +4,6 @@ import Portrait1 from './assets/portrait.jpeg';
 import Portrait2 from './assets/portrait2.jpeg';
 import Portrait3 from './assets/portrait3.jpeg';
 import QRCode from './assets/Linked in.svg';
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
 import CV from "./assets/CV.pdf"
 
 const REGAL_GOLD_GRADIENT = 'linear-gradient(145deg, #FFEFD5 0%, #D4AF37 35%, #FFEFD5 65%, #C9A028 100%)';
