@@ -447,7 +447,7 @@ const Projects = () => {
       statusColor: "bg-green-500",
       github: 'https://github.com/AnaPule/daily-digest',
       demo: 'https://daily-digest-8oa1-pl0wjja2f-anapules-projects.vercel.app/',
-      type: "News and Currency"
+      type: "News & Currency"
     },
     {
       id: 3,
@@ -458,7 +458,7 @@ const Projects = () => {
       statusColor: "bg-green-500",
       github: "https://github.com/Lesiba-sdev/Game-",
       demo: "https://epiphany-quest.netlify.app/",
-      type: "Entertainment and Education"
+      type: "Entertainment & Education"
     },
     {
       id: 4,
