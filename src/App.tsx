@@ -451,6 +451,17 @@ const Projects = () => {
     },
     {
       id: 3,
+      title: "Epiphany Quest",
+      description: "The Epiphany Quest is a web-based multiplayer trivia game that brings biblical and theological learning to life through interactive, gamified experiences.",
+      technologies: ['HTML','CSS','JavaScript', 'Node.js', 'Express.js','Drizzle - ORM', 'MySql'],
+      status: "Completed",
+      statusColor: "bg-green-500",
+      github: "https://github.com/Lesiba-sdev/Game-",
+      demo: "https://epiphany-quest.netlify.app/",
+      type: "Entertainment and Education"
+    },
+    {
+      id: 4,
       title: "Bookmark",
       description: "A social interaction platform allowing readers a central place to discover, read and discuss books they have taken interest in - all with other readers with the same interest.",
       technologies: ['React', 'Java', 'SpringBoot', 'Postgres', 'MongoDB'],
